@@ -19,7 +19,9 @@ $ node app2.js
 ```
 
 Open a web browser and navigate to [http://localhost:3000/](http://127.0.0.1:3000/)
- 
+
+What's in here?
+-----------
 ### Current Functions
 
   * home page
