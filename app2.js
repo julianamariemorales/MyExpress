@@ -11,19 +11,13 @@ var handlebars = require('express-handlebars').create({defaultLayout:'main'});
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
 
-// Required when using POST to parse encoded data
-// npm install --save body-parser
-//app.use(require('body-parser').urlencoded({extended: true}));
+app.use(require('body-parser').urlencoded({extended: true}));
 
-// Formidable is required to accept file uploads
-// npm install --save formidable
-//var formidable = require('formidable');
+var formidable = require('formidable');
 
 // Import credentials which are used for secure cookies
-// Install the cookie middleware
-// npm install --save cookie-parser
-//var credentials = require('./credentials.js');
-//app.use(require('cookie-parser')(credentials.cookieSecret));
+var credentials = require('./credentials.js');
+app.use(require('cookie-parser')(credentials.cookieSecret));
 
 // Define the port to run on
 app.set('port', process.env.PORT || 3000);
@@ -40,6 +34,28 @@ app.get('/', function(req, res){
 //about us
 app.get('/about', function(req, res){
   res.render('about');
+});
+
+//contact us
+app.get('/contact', function(req, res){
+  // verified when the user posts
+  res.render('contact', { csrf: 'CSRF token here' });
+});
+
+// thankyou
+//after the form is processed
+app.get('/thankyou', function(req, res){
+  res.render('thankyou');
+});
+
+// Receive the contact form data and then redirect to
+// contact.handlebars calls process to process the form
+app.post('/process', function(req, res){
+  console.log('Form : ' + req.query.form);
+  console.log('CSRF token : ' + req.body._csrf);
+  console.log('Email : ' + req.body.email);
+  console.log('Question : ' + req.body.ques);
+  res.redirect(303, '/thankyou');
 });
 
 
@@ -64,35 +80,7 @@ app.use(function(err, req, res, next){
 });
 
 
-
-/*
-// Link to contact view
-app.get('/contact', function(req, res){
-
-  // CSRF tokens are generated in cookie and form data and
-  // then they are verified when the user posts
-  res.render('contact', { csrf: 'CSRF token here' });
-});
-
-// Sent here after the form is processed
-app.get('/thankyou', function(req, res){
-  res.render('thankyou');
-});
-
-// Receive the contact form data and then redirect to
-// thankyou.handlebars
-// contact.handlebars calls process to process the form
-app.post('/process', function(req, res){
-  console.log('Form : ' + req.query.form);
-  console.log('CSRF token : ' + req.body._csrf);
-  console.log('Email : ' + req.body.email);
-  console.log('Question : ' + req.body.ques);
-  res.redirect(303, '/thankyou');
-});
-
-// Open file-upload.handlebars and store the current year
-// and month. When the form is submitted the year and month
-// will be passed
+// file-upload
 app.get('/file-upload', function(req, res){
   var now = new Date();
   res.render('file-upload',{
@@ -117,6 +105,7 @@ app.post('/file-upload/:year/:month',
   });
 });
 
+/*
 // Demonstrate how to set a cookie
 app.get('/cookie', function(req, res){
 

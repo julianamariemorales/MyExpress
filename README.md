@@ -33,7 +33,8 @@ What's in here?
   * creating about page
   * creating portfolio page
   * design
+  * create file upload
   
 ### To Do
-  * create file upload
+
   * login function

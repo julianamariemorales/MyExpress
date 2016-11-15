@@ -1,0 +1,68 @@
+
+
+<!--
+<div class="form-group">
+
+  <label class="control-label">Readonly Input</label>
+<input id="fieldPhoto" type="file" class="file" readonly="true" required accept="image/*">
+
+
+  <label class="custom-file">
+    <input type="file" class="custom-file-input" required accept="image/*" id="fieldPhoto" name="photo">
+    <span class="custom-file-control"></span>
+  </label>
+
+  <div class="col-sm-4">
+   Only accept images
+    <input type="file" class="form-control" required accept=""accept="image/*" id="fieldPhoto" name="photo">
+</div>
+
+</div>
+-->
+
+<div class="container">
+
+      <div class="panel panel-default">
+        <div class="panel-heading"><strong>Upload Files</strong> <small></small></div>
+        <div class="panel-body">
+
+          <form class="form-horizontal" role="form"
+          enctype="multipart/form-data" method="POST"
+          action="/file-upload/{year}/{month}">
+
+          <div class="form-group">
+            <label for="fieldName" class="col-sm-2 control-label"> Name </label>
+            <div class="col-sm-4">
+              <input type="text" class="form-control" id="fieldName"name="name">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="fieldEmail" class="col-sm-2 control-label"> Email</label>
+            <div class="col-sm-4">
+              <input type="email" class="form-control"required id="fieldEmail" name="email">
+            </div>
+          </div>
+
+
+          <!-- Standar Form -->
+          <h4>Select files from your computer</h4>
+
+            <div class="form-inline">
+              <div class="form-group">
+                <input type="file" name="files[]" id="js-upload-files" multiple>
+              </div>
+            </div>
+
+          <!-- Submit -->
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-4">
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+            </div>
+
+        </div>
+      </div>
+    </div> <!-- /container -->
+
+</form>
