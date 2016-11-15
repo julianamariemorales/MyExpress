@@ -25,6 +25,7 @@ What's in here?
 ### Current Functions
 
   * home page
+  * error pages (404 and 500)
 
  
 ### Ongoing

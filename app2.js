@@ -1,33 +1,14 @@
-// We will structure here a series of possible responses
-// depending on the URL requested. As we travel through
-// the pipeline we will perform needed actions using middleware
-// functions. If a response is valid we will display the
-// correct view and if not we will handle errors.
-
-// This is our projects entry point. If you start the
-// server by typing node expresstut.js and then open the
-// browser at loclhost:3000 you'll get a 404 error if
-// you haven't defined any routes
-// Import the express module
 var express = require('express');
-
 var app = express();
 
-// Block the header from containing information
-// about the server
+// Block the header from containing information about the server
 app.disable('x-powered-by');
 
 // Set up Handlebars
-// Create a directory named views and then another named layouts
-// in it
-// Define main.handlebars as the default layout
-// Create these files in the views directory and define the
-// HTML in them home.handlebars, about.handlebars,
-// 404.handlebars and 500.handlebars
+// CONTAINS:  home.handlebars, about.handlebars,404.handlebars and 500.handlebars
 var handlebars = require('express-handlebars').create({defaultLayout:'main'});
 
 app.engine('handlebars', handlebars.engine);
-
 app.set('view engine', 'handlebars');
 
 // Required when using POST to parse encoded data
@@ -44,38 +25,32 @@ app.set('view engine', 'handlebars');
 //var credentials = require('./credentials.js');
 //app.use(require('cookie-parser')(credentials.cookieSecret));
 
-// Defines the port to run on
+// Define the port to run on
 app.set('port', process.env.PORT || 3000);
 
-// Create a directory called public and then a directory
-// named img inside of it and put your logo in there
+// Images are here
 app.use(express.static(__dirname + '/public'));
 
-// Define some routes. app.get receives a path and a
-// function and it defines our routes. The path isn't
-// case sensitive and doesn't care about trailing path
-// information.
-// The req object represents the HTTP request and
-// contains the query string, parameters, body, header
-// The res object is the response Express sends
-// when it receives a request
+// Define some routes
+//home
 app.get('/', function(req, res){
-
-  // Point at the home.handlebars view
   res.render('home');
 });
 
-// This is an example of middleware It receives a request
-// object, response object and the next function
-// As we look for the correct information to serve it executes
-// and then next() says to continue down the pipeline
-//app.use(function(req, res, next){
-//  console.log('Looking for URL : ' + req.url);
-//  next();
-//});
+//about us
+app.get('/about', function(req, res){
+  res.render('about');
+});
 
 
-// You can also report and throw errors
+//middleware -  receives a request
+app.use(function(req, res, next){
+  console.log('Looking for URL : ' + req.url);
+  next();
+});
+
+
+//report and throw errors
 app.get('/junk', function(req, res, next){
   console.log('Tried to access /junk');
   throw new Error('/junk does\'t exist');
@@ -89,15 +64,8 @@ app.use(function(err, req, res, next){
 });
 
 
-/*
-// If we want /about/contact we'd have to define it
-// before this route
-app.get('/about', function(req, res){
-  // Point at the about.handlebars view
-  // Allow for the test specified in tests-about.js
-  res.render('about');
-});
 
+/*
 // Link to contact view
 app.get('/contact', function(req, res){
 
@@ -259,16 +227,10 @@ app.get('/writefile', function(req, res, next){
 
 */
 
-// Defines a custom 404 Page and we use app.use because
-// the request didn't match a route (Must follow the routes)
+//the error pages 404 and 500
 app.use(function(req, res) {
-  // Define the content type
   res.type('text/html');
-
-  // The default status is 200
-  res.status(404);
-
-  // Point at the 404.handlebars view
+  res.status(404); //default status is 200
   res.render('404');
 });
 
@@ -276,8 +238,6 @@ app.use(function(req, res) {
 app.use(function(err, req, res, next) {
   console.error(err.stack);
   res.status(500);
-
-  // Point at the 500.handlebars view
   res.render('500');
 });
 
