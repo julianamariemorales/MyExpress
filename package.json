@@ -1,0 +1,21 @@
+{
+  "name": "julesexpressproj",
+  "version": "0.0.1",
+  "private": true,
+  "description": "simple web app using express",
+  "main": "app.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [
+    "expressjs",
+    "nodejs",
+    "webapp"
+  ],
+  "author": "Juliana Marie Morales <julianamariem@hotmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.14.0",
+    "express-handlebars": "^3.0.0"
+  }
+}
