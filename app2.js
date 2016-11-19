@@ -1,5 +1,7 @@
 var express = require('express');
 var app = express();
+var fs = require('fs');
+var activenavbar = require('./controllers/footer');
 
 // Block the header from containing information about the server
 app.disable('x-powered-by');
@@ -56,6 +58,12 @@ app.post('/process', function(req, res){
   console.log('Email : ' + req.body.email);
   console.log('Question : ' + req.body.ques);
   res.redirect(303, '/thankyou');
+
+//append email
+  fs.appendFile('contactlog.txt', (req.body.email + " - " + req.body.ques) + '\r\n', (err) => {
+      if (err) throw err;
+        console.log('File updated!');
+        });
 });
 
 
@@ -88,6 +96,10 @@ app.get('/file-upload', function(req, res){
     month: now.getMonth() });
   });
 
+
+//savefile
+//app.use(express.body-parser({uploadDir:'/public/uploadedimages'}));
+
 // file-upload.handlebars contains the form that calls here
 app.post('/file-upload/:year/:month',
   function(req, res){
@@ -105,12 +117,12 @@ app.post('/file-upload/:year/:month',
   });
 });
 
-/*
-// Demonstrate how to set a cookie
+
+//set a cookie
 app.get('/cookie', function(req, res){
 
   // Set the key and value as well as expiration
-  res.cookie('username', 'DerekBanas', {expire : new Date() + 9999}).send('username has the value of : DerekBanas');
+  res.cookie('username', 'julianamariemorales', {expire : new Date() + 9999}).send('username has the value of : julianamariemorales');
 });
 
 // Show stored cookies in the console
@@ -125,31 +137,26 @@ app.get('/deletecookie', function(req, res){
   res.send('username Cookie Deleted');
 });
 
-// Storing session information can be done in a few ways.
-// For development we can work with a memory store
-// Stores the session id in a cookie and the session data
-// on the server
-// npm install --save express-session
 
+
+// Storing session information
 var session = require('express-session');
 
-// parseurl provides info on the url of a request object
-// npm install --save parseurl
+//info on the url of a request object
 var parseurl = require('parseurl');
 
 app.use(session({
-  // Only save back to the session store if a change was made
+  //save back to the session store if a change was made
   resave: false,
 
-  // Doesn't store data if a session is new and hasn't been
-  // modified
+  // Doesn't store data if a session is new and hasn't been modified
   saveUninitialized: true,
 
   // The secret string used to sign the session id cookie
   secret: credentials.cookieSecret,
 }));
 
-// This is another example of middleware.
+//middleware again
 app.use(function(req, res, next){
   var views = req.session.views;
 
@@ -163,25 +170,19 @@ app.use(function(req, res, next){
 
   // Increment the value in the array using the path as the key
   views[pathname] = (views[pathname] || 0) + 1;
-
-  next();
-
+  next(); //continue to the pipeline
 });
 
-// When this page is accessed get the correct value from
-// the views array
+
+// When this page is accessed get the correct value from the views array
 app.get('/viewcount', function(req, res, next){
   res.send('You viewed this page ' + req.session.views['/viewcount'] + ' times ');
 });
 
-// Reading and writing to the file system
-// Import the File System module : npm install --save fs
-var fs = require("fs");
 
 app.get('/readfile', function(req, res, next){
 
-  // Read the file provided and either return the contents
-  // in data or an err
+  // Read the file provided and either return the content in data or an err
   fs.readFile('./public/randomfile.txt', function (err, data) {
    if (err) {
        return console.error(err);
@@ -191,30 +192,21 @@ app.get('/readfile', function(req, res, next){
 
 });
 
-// This writes and then reads from a file
-app.get('/writefile', function(req, res, next){
-
-  // If the file doesn't exist it is created and then you add
-  // the text provided in the 2nd parameter
-  fs.writeFile('./public/randomfile2.txt',
-    'More random text', function (err) {
-   if (err) {
-       return console.error(err);
-    }
-  });
+//for admin: display the contactlog
+app.get('/contactlog', function(req, res, next){
 
     // Read the file like before
-   fs.readFile('./public/randomfile2.txt', function (err, data) {
+   fs.readFile('./contactlog.txt', function (err, data) {
    if (err) {
        return console.error(err);
    }
 
-   res.send("The File : " + data.toString());
+   res.send("The Contact Log: " + data.toString());
   });
 
 });
 
-*/
+
 
 //the error pages 404 and 500
 app.use(function(req, res) {

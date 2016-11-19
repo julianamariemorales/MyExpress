@@ -26,15 +26,18 @@ What's in here?
 
   * home page
   * error pages (404 and 500)
+  * file -upload
+  * contact me page
+  *contact log
 
  
 ### Ongoing
  
-  * creating about page
-  * creating portfolio page
+  * login function
   * design
-  * create file upload
+
   
 ### To Do
 
-  * login function
+  * more design
+  * portfolio page

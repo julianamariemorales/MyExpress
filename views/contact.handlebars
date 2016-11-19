@@ -8,23 +8,22 @@
 
   <input type="hidden" name="_csrf" value="{{csrf}}">
 
-
+<!-- email -->
   <div class="form-group">
-      <label for="fieldEmail">Email address</label>
-      <input type="email" class="form-control" id="fieldEmail" aria-describedby="emailHelp" placeholder="Enter email">
+      <label for="fieldEmail">Email</label>
+      <input type="email" class="form-control" id="fieldEmail" aria-describedby="emailHelp" placeholder="Enter email" name = "email">
       <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
     </div>
 
-  <!-- End of form-group -->
-
+<!-- question -->
   <div class="form-group">
     <label for="fieldQues">Question</label>
-    <input type="text" class="form-control" id="fieldQues" placeholder="Ask away">
+    <input type="text" class="form-control" id="fieldQues" placeholder="Ask away" name = "ques">
   </div>
-  <!-- End of form-group -->
 
+<!-- submit -->
   <div class="form-group">
-    <button type="button" class="btn btn-primary btn-lg btn-block">Submit</button>
+    <button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
 
     <!--
     <div class="col-sm-4">
